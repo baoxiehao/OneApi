@@ -25,6 +25,7 @@ defmodule OneApi.Router do
     get "/ifanr", RssController, :ifanr
     get "/geekpark", RssController, :geekpark
     get "/qdaily", RssController, :qdaily
+    get "/goldxitu", RssController, :goldxitu
   end
 
   # Other scopes may use custom stacks.

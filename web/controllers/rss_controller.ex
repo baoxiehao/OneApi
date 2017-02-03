@@ -27,4 +27,13 @@ defmodule OneApi.RssController do
         json(conn, reason)
     end
   end
+
+  def goldxitu(conn, _params) do
+    case OneApi.GoldXitu.fetch do
+      {:ok, response} ->
+        json(conn, response)
+      {:error, reason} ->
+        json(conn, reason)
+    end
+  end
 end
