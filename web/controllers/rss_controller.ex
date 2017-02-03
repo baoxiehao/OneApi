@@ -18,4 +18,13 @@ defmodule OneApi.RssController do
         json(conn, reason)
     end
   end
+
+  def qdaily(conn, _params) do
+    case OneApi.QDaily.fetch do
+      {:ok, response} ->
+        json(conn, response)
+      {:error, reason} ->
+        json(conn, reason)
+    end
+  end
 end

@@ -7,6 +7,11 @@ defmodule OneApi.GeekPark do
     @domain
   end
 
+  def process_response_body(html) do
+    Floki.find(html, "article.article-item")
+    |> Enum.map(&OneApi.GeekPark.parse/1)
+  end
+
   """
   <article class="article-item">
      <a class="dib-top img-cover-wrap" data-event-action="view" data-event-category="home.article-list.cover" data-event-label="被红包充斥的除夕夜过去了，这里是关于红包你需要知道的所有玩法和数据 /topics/217806" href="/topics/217806" target="_blank">
@@ -34,15 +39,10 @@ defmodule OneApi.GeekPark do
      </div>
   </article>
   """
-  def process_response_body(html) do
-    Floki.find(html, "article.article-item")
-    |> Enum.map(&OneApi.GeekPark.parse/1)
-  end
-
   def parse(markup) do
     image = Floki.find(markup, "div.responsive-img > img") |> Floki.attribute("data-src") |> List.first
     title = Floki.find(markup, "div.responsive-img > img") |> Floki.attribute("alt") |> List.first
-    link = Floki.find(markup, "a.dib-top") |> Floki.attribute("href") |> List.first
+    link = Floki.find(markup, "a.dib-top.img-cover-wrap") |> Floki.attribute("href") |> List.first
     desc = Floki.find(markup, "p.article-description") |> Floki.text
     time = Floki.find(markup, "a.article-time") |> Floki.attribute("title") |> List.first
 

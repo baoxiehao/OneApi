@@ -7,6 +7,11 @@ defmodule OneApi.Ifanr do
     @domain
   end
 
+  def process_response_body(html) do
+    Floki.find(html, "div..article-item.article-item--card")
+    |> Enum.map(&OneApi.Ifanr.parse/1)
+  end
+
   """
   <div class="article-item article-item--card " data-post-id="782014">
     <div class="article-image cover-image" style="background-image: url('http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/05/cook.jpg!260');"></div>
@@ -20,13 +25,8 @@ defmodule OneApi.Ifanr do
     </div>
   </div>
   """
-  def process_response_body(html) do
-    Floki.find(html, "div.article-item--card")
-    |> Enum.map(&OneApi.Ifanr.parse/1)
-  end
-
   def parse(markup) do
-    image = Floki.find(markup, ".article-image") |> Floki.attribute("style") |> List.first
+    image = Floki.find(markup, ".article-image.cover-image") |> Floki.attribute("style") |> List.first
     image = Regex.named_captures(~r/background-image: url\('(?<url>.*)'\);/, image) |> Map.get("url")
     title = Floki.find(markup, "h3") |> Floki.text
     link = Floki.find(markup, ".article-link") |> Floki.attribute("href") |> List.first
