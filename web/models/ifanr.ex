@@ -1,4 +1,4 @@
-defmodule OneApi.Ifanr do
+defmodule OneApi.Rss.Ifanr do
   use HTTPoison.Base
 
   @domain "http://www.ifanr.com"
@@ -9,7 +9,7 @@ defmodule OneApi.Ifanr do
 
   def process_response_body(html) do
     Floki.find(html, "div..article-item.article-item--card")
-    |> Enum.map(&OneApi.Ifanr.parse/1)
+    |> Enum.map(&OneApi.Rss.Ifanr.parse/1)
   end
 
   """
@@ -41,8 +41,8 @@ defmodule OneApi.Ifanr do
   end
 
   def fetch do
-    OneApi.Ifanr.start
-    case OneApi.Ifanr.get("/") do
+    OneApi.Rss.Ifanr.start
+    case OneApi.Rss.Ifanr.get("/") do
       {:ok, response} ->
         {:ok, response.body}
       {:error, reason} ->

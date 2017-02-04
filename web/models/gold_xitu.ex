@@ -1,4 +1,4 @@
-defmodule OneApi.GoldXitu do
+defmodule OneApi.Rss.GoldXitu do
   use HTTPoison.Base
 
   @domain "https://gold.xitu.io/"
@@ -9,7 +9,7 @@ defmodule OneApi.GoldXitu do
 
   def process_response_body(html) do
     Floki.find(html, "div.entry.clearfix")
-    |> Enum.map(&OneApi.GoldXitu.parse/1)
+    |> Enum.map(&OneApi.Rss.GoldXitu.parse/1)
   end
 
   """
@@ -48,8 +48,8 @@ defmodule OneApi.GoldXitu do
   end
 
   def fetch do
-    OneApi.GoldXitu.start
-    case OneApi.GoldXitu.get("/") do
+    OneApi.Rss.GoldXitu.start
+    case OneApi.Rss.GoldXitu.get("/") do
       {:ok, response} ->
         {:ok, response.body}
       {:error, reason} ->

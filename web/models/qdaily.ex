@@ -1,4 +1,4 @@
-defmodule OneApi.QDaily do
+defmodule OneApi.Rss.QDaily do
   use HTTPoison.Base
 
   @domain "http://www.qdaily.com"
@@ -9,10 +9,10 @@ defmodule OneApi.QDaily do
 
   def process_response_body(html) do
     Floki.find(html, "div.grid-articles-banner-hd > a")
-    |> Enum.map(&OneApi.QDaily.parse_banner/1)
+    |> Enum.map(&OneApi.Rss.QDaily.parse_banner/1)
     |> Enum.concat(
         Floki.find(html, "div.packery-item")
-        |> Enum.map(&OneApi.QDaily.parse_item/1))
+        |> Enum.map(&OneApi.Rss.QDaily.parse_item/1))
   end
 
   """
@@ -81,8 +81,8 @@ defmodule OneApi.QDaily do
   end
 
   def fetch do
-    OneApi.QDaily.start
-    case OneApi.QDaily.get("/") do
+    OneApi.Rss.QDaily.start
+    case OneApi.Rss.QDaily.get("/") do
       {:ok, response} ->
         {:ok, response.body}
       {:error, reason} ->
