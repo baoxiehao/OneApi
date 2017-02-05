@@ -8,11 +8,8 @@ defmodule OneApi.Rss.QDaily do
   end
 
   def process_response_body(html) do
-    Floki.find(html, "div.grid-articles-banner-hd > a")
-    |> Enum.map(&OneApi.Rss.QDaily.parse_banner/1)
-    |> Enum.concat(
-        Floki.find(html, "div.packery-item")
-        |> Enum.map(&OneApi.Rss.QDaily.parse_item/1))
+    Floki.find(html, "div.packery-item")
+    |> Enum.map(&OneApi.Rss.QDaily.parse_item/1)
   end
 
   """
@@ -45,7 +42,8 @@ defmodule OneApi.Rss.QDaily do
 
     %{
       title: title,
-      link: @domain <> link
+      link: @domain <> link,
+      source: "好奇心日报"
     }
   end
 
@@ -76,7 +74,8 @@ defmodule OneApi.Rss.QDaily do
       title: title,
       link: @domain <> link,
       image: image,
-      time: time
+      time: time |> OneApi.Time.format,
+      source: "好奇心日报"
     }
   end
 

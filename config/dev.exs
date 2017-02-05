@@ -37,7 +37,7 @@ config :phoenix, :stacktrace_depth, 20
 config :one_api, OneApi.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "haoranyk",
   database: "one_api_dev",
   hostname: "localhost",
   pool_size: 10

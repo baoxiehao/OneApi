@@ -36,7 +36,8 @@ defmodule OneApi.Rss.Ifanr do
       title: title,
       link: link,
       image: image,
-      time: time
+      time: time |> OneApi.Time.format,
+      source: "爱范儿"
     }
   end
 

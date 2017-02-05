@@ -22,11 +22,11 @@ defmodule OneApi.Router do
   scope "/api", OneApi do
     pipe_through :api
 
+    get "/rss", RssController, :index
     get "/rss/diycode", RssController, :diycode
     get "/rss/ifanr", RssController, :ifanr
     get "/rss/geekpark", RssController, :geekpark
     get "/rss/qdaily", RssController, :qdaily
-    get "/rss/goldxitu", RssController, :goldxitu
   end
 
   # Other scopes may use custom stacks.

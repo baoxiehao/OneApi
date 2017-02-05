@@ -59,7 +59,8 @@ defmodule OneApi.Rss.GeekPark do
       link: @domain <> link,
       image: image,
       desc: desc,
-      time: time
+      time: time |> OneApi.Time.format,
+      source: "极客公园"
     }
   end
 

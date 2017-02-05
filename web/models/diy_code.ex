@@ -23,7 +23,7 @@ defmodule OneApi.Rss.DiyCode do
     cond do
       topics_news >= 10 ->
         Floki.find(html, topics_news_selector)
-        |> Enum.map(&OneApi.Rss.DiyCode.parse/1)
+        |> Enum.map(&OneApi.Rss.DiyCode.parse_topics_news/1)
       projects >= 10 ->
         Floki.find(html, projects_selector)
         |> Enum.map(&OneApi.Rss.DiyCode.parse_projects/1)
@@ -56,9 +56,9 @@ defmodule OneApi.Rss.DiyCode do
     <div class="count media-right"></div>
   </div>
   """
-  def parse(markup) do
+  def parse_topics_news(markup) do
     image = Floki.find(markup, "div.avatar > a > img") |> Floki.attribute("src") |> List.first
-    title = Floki.find(markup, "div.title > a") |> Floki.text
+    title = Floki.find(markup, "div.title > a") |> Floki.attribute("title") |> List.first
     link = Floki.find(markup, "div.title > a") |> Floki.attribute("href") |> List.first
     time = Floki.find(markup, "abbr.timeago") |> Floki.attribute("title") |> List.first
 
@@ -67,11 +67,11 @@ defmodule OneApi.Rss.DiyCode do
     end
 
     %{
-      image: image,
-      title: title,
-      link: link,
-      time: time
-    }
+      image: image |> String.trim,
+      title: title |> String.trim,
+      link: link |> String.trim,
+      time: time |> OneApi.Time.format
+     }
   end
 
   """
@@ -104,11 +104,11 @@ defmodule OneApi.Rss.DiyCode do
     link = [@domain, link] |> Enum.join ""
 
     %{
-      image: image,
-      title: title,
-      link: link,
-      desc: desc,
-      tags: tags
+      image: image |> String.trim,
+      title: title |> String.trim,
+      link: link |> String.trim,
+      desc: desc |> String.trim,
+      tags: tags |> String.trim
     }
   end
 
@@ -134,10 +134,10 @@ defmodule OneApi.Rss.DiyCode do
     link = [@domain, link] |> Enum.join ""
 
     %{
-      image: image,
-      title: title,
-      link: link,
-      star: star
+      image: image |> String.trim,
+      title: title |> String.trim,
+      link: link |> String.trim,
+      desc: [star |> String.trim, "stars"] |> Enum.join " "
     }
   end
 
@@ -153,9 +153,9 @@ defmodule OneApi.Rss.DiyCode do
     link = Floki.find(markup, "a") |> Floki.attribute("href") |> List.first
 
     %{
-      image: image,
-      title: title,
-      link: link
+      image: image |> String.trim,
+      title: title |> String.trim,
+      link: link |> String.trim
     }
   end
 

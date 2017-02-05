@@ -19,7 +19,7 @@ defmodule OneApi.Mixfile do
   def application do
     [mod: {OneApi, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpoison]]
+                    :phoenix_ecto, :postgrex, :httpoison, :timex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,6 +39,8 @@ defmodule OneApi.Mixfile do
      {:gettext, "~> 0.11"},
      {:floki, "~> 0.7"},
      {:httpoison, "~> 0.8.0"},
+     {:timex, "~> 3.0"},
+     {:pit, "~> 1.2.0"},
      {:cowboy, "~> 1.0"}]
   end
 
